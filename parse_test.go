@@ -1,6 +1,8 @@
 package ical
 
 import (
+	"bytes"
+	"io"
 	"os"
 	"testing"
 )
@@ -68,6 +70,19 @@ func TestParseDate(t *testing.T) {
 			t.Error(err)
 		} else {
 			t.Logf("in: %+v, out: %s", prop.Value, out)
+		}
+	}
+}
+
+// TestParseNone verifies than io.EOF is returned when reading from a empty
+// reader
+func TestParseNone(t *testing.T) {
+	emptyTest := bytes.NewBufferString("")
+	_, err := Parse(emptyTest)
+
+	if err != nil {
+		if err != io.EOF {
+			t.Error(err)
 		}
 	}
 }

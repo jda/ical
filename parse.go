@@ -72,6 +72,10 @@ func Parse(r io.Reader) (*Calendar, error) {
 		return nil, err
 	}
 
+	if len(bytes) == 0 {
+		return nil, io.EOF
+	}
+
 	text := unfold(string(bytes))
 	p.lex = lex(text)
 	return p.parse()
